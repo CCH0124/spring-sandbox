@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
 public class MonoTest {
-    private static final Logger log = LoggerFactory.getLogger(SubscriberImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(MonoTest.class);
 
     @Test
     public void justTest() {
@@ -58,7 +58,6 @@ public class MonoTest {
     @Test
     public void empty_error() {
         var mono = Mono.empty();
-        var monoErr = Mono.error(new IllegalAccessError("Test"));
         assertNotNull(mono);
         assertThrows(IllegalAccessError.class, () -> Mono.error(new IllegalAccessError("Test")));
     }
@@ -115,5 +114,44 @@ public class MonoTest {
             log.info("generating name...");
             return Utils.instance().company().name();
         });
+    }
+
+    /*
+     * Creating publisher is a lightweight operation.
+     * Executing time-consuming bussiness logic should be delayed.
+     */
+
+     @Test
+     public void defer_test() {
+        Mono.defer(() -> createPublisher())
+        .subscribe(x -> log.info("{}", x));
+     }
+
+     Mono<Integer> createPublisher() {
+        log.info("creating publisher");
+        var l = List.of(1, 3, 5);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return Mono.fromSupplier(() -> multipleTimeConsuming(l));
+     }
+    // time-consuming business logic
+    static int multipleTimeConsuming(List<Integer> l) throws IllegalArgumentException {
+        log.info("list: {}", l);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return l.stream().mapToInt(x -> x).reduce(1, (x, y) -> x * y);
+    }
+    /**
+     * block 會阻塞 thread
+     */
+    @Test
+    public void nonBlocking_test() {
+
     }
 }
