@@ -8,7 +8,7 @@
 
     <logger name="reactor.netty.http.client" level="INFO" />
 
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="STDOUT" />
         <!-- <appender-ref ref="LISTAPPENDER" /> -->
     </root>
