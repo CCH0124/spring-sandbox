@@ -1,6 +1,5 @@
 package com.example.firstcrud.controller;
 
-import com.example.firstcrud.domain.Tutorial;
 import com.example.firstcrud.dtos.TutorialRequestDto;
 import com.example.firstcrud.dtos.TutorialResponseDto;
 import com.example.firstcrud.dtos.TutorialResponsePagingDto;

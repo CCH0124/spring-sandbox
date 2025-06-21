@@ -12,3 +12,4 @@ plugins {
 
 rootProject.name = 'reactor-playground'
 include('reactor-basic')
+include('spring-reactive')
