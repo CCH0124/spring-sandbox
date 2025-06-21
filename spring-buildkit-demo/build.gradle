@@ -23,6 +23,10 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+springBoot {
+    mainClass = 'com.example.spring_buildkit_demo.SpringBuildkitDemoApplication'
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
